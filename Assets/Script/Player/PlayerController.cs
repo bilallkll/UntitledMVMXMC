@@ -50,15 +50,13 @@ public class PlayerController : MonoBehaviour
     public float disapearDelay;
     public float reapearDelay;
     [Header("Attack")]
-    public float[] attackTime;
-    public float[] attackCooldown;
-    public float[] thrustForce;
-    public float[] thrustTime;
+    public float attackTime;
+    public float attackCooldown;
+    public float thrustForce;
+    public float thrustTime;
     public float attackGraceTime;
     public float comboGraceTime;
     bool isThrust;
-    public int comboNum;
-    private Coroutine comboResetCoroutine;
     public float pogoForce;
     [Header("Components")]
     //public HitBox thisHitBox;
@@ -99,10 +97,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int FallAnim = Animator.StringToHash("Fall");
     private static readonly int Wall = Animator.StringToHash("Wall");
     private static readonly int DashAnim = Animator.StringToHash("Dash");
-    private static readonly int[] AttackAnim = 
-        { Animator.StringToHash("Attack"),
-        Animator.StringToHash("Attack2"), 
-        Animator.StringToHash("Attack3") };
+    private static readonly int AttackAnim = Animator.StringToHash("Attack");
     private static readonly int AttackUpAnim = Animator.StringToHash("AttackUp");
     private static readonly int AttackDownAnim = Animator.StringToHash("AttackDown");
     private static readonly int HurtAnim = Animator.StringToHash("Hurt");
@@ -267,6 +262,21 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector2.up * pogoForce * pogoMultiplier, ForceMode2D.Impulse);
         canDashGround = true;
         canDobleJumpGround = true;
+    }
+    public void KnockBack(float knockMultiplier = 1f)
+    {
+        Debug.Log("knmock");
+        canMove = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.AddForce(_facingRight? Vector2.left : Vector2.right * knockMultiplier, ForceMode2D.Impulse);
+
+        StartCoroutine(KnockBackTime());
+    }
+    IEnumerator KnockBackTime()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(knockBackTime);
+        canMove = true;
     }
     public void Direction(bool start)
     {
@@ -652,18 +662,11 @@ public class PlayerController : MonoBehaviour
             attackSfx.Play();
             _attacking = true;
             canAttack = false;
-            StartCoroutine(boolCoolDownAttack(attackCooldown[comboNum]));
+            StartCoroutine(boolCoolDownAttack(attackCooldown));
 
         }
 
 
-
-        if(comboResetCoroutine != null)
-        {
-            StopCoroutine(comboResetCoroutine);
-        }
-
-        comboResetCoroutine = StartCoroutine(ComboTimeReset());
 
     }
     public void AttackGraceTime()
@@ -705,10 +708,10 @@ public class PlayerController : MonoBehaviour
                 if (_facingUp) return AttackUpAnim;
                 else if (_facingDown && !_grounded) return AttackDownAnim;
                 else if (_facingDown && _grounded && _attacking) return Idle;
-                else if (_facingRight) return AttackAnim[comboNum];
-                else return AttackAnim[comboNum];
+                else if (_facingRight) return AttackAnim;
+                else return AttackAnim;
             }
-            else if (_walledLeft || _walledRight) return AttackAnim[comboNum];
+            else if (_walledLeft || _walledRight) return AttackAnim;
 
         }
         if (_dash) return DashAnim;
@@ -773,7 +776,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void KnockBack(float knockBackPower)
+    /*public void KnockBack(float knockBackPower)
     {
         Vector2 knockBackDirection;
         if (_facingUp) knockBackDirection = Vector2.down;
@@ -794,7 +797,7 @@ public class PlayerController : MonoBehaviour
         if(_facingDown || _facingUp)
             rb.AddForce(knockBackDirection * knockBackPower, ForceMode2D.Impulse);
 
-    }
+    }*/
 
     
     public IEnumerator KnockBackBoolCoolDown(float coolDown)
@@ -830,25 +833,15 @@ public class PlayerController : MonoBehaviour
         if (((_facingDown || !_facingUp) && _grounded) || ((!_facingDown && !_facingUp) && !_grounded))
         {
             isThrust = true;
-            canMove = false;
-            yield return new WaitForSeconds(thrustTime[comboNum]);
-            rb.AddForce((_facingRight ? Vector2.right : Vector2.left) * thrustForce[comboNum], ForceMode2D.Impulse);
+            yield return new WaitForSeconds(thrustTime);
+            rb.AddForce((_facingRight ? Vector2.right : Vector2.left) * thrustForce, ForceMode2D.Impulse);
         }
-        yield return new WaitForSeconds(attackTime[comboNum] + (isThrust? -thrustTime[comboNum] : 0));
+        yield return new WaitForSeconds(attackTime + (isThrust? -thrustTime : 0));
         _attacking = false;
 
-        canMove = true;
-
-        if (comboNum < 2 && isThrust) 
-            comboNum++;
-        yield return new WaitForSeconds(coolDown - attackTime[comboNum]);
+        yield return new WaitForSeconds(coolDown - attackTime);
         canAttack = true; 
 
-    }
-    public IEnumerator ComboTimeReset()
-    {
-        yield return new WaitForSeconds(comboGraceTime);
-        comboNum = 0;
     }
     
     public void GroundCheck()
