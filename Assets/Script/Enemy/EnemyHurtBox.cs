@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyHurtBox : MonoBehaviour
@@ -18,6 +19,8 @@ public class EnemyHurtBox : MonoBehaviour
     public float playerKnockBack;
     PlayerController controller;
     public float pogoMultiplier = 1;
+    public float knockBackTime;
+    public SimpleEnemy enemy;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -76,14 +79,24 @@ public class EnemyHurtBox : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.y, 0);
             rb?.AddForce((controller._facingUp ? Vector2.up : Vector2.down) * knockBack, ForceMode2D.Impulse);
+            StartCoroutine(KnockBackTime());
+
         }
         else
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
             rb?.AddForce((controller._facingRight ? Vector2.right : Vector2.left) * knockBack, ForceMode2D.Impulse);
+            StartCoroutine(KnockBackTime());
+
         }
 
 
+    }
+    IEnumerator KnockBackTime()
+    {
+        enemy.canMove = false;
+        yield return new WaitForSeconds(knockBackTime);
+        enemy.canMove = true;
     }
 }

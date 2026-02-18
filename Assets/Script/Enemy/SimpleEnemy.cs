@@ -25,8 +25,11 @@ public class SimpleEnemy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Move();
         GroundCheck();
+    }
+    private void Update()
+    {
+        Move();
         Direction();
     }
     public void Direction()
