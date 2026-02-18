@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public float wallDrag;
     float HorizontalInput;
     float VerticalInput;
-    public LayerMask groundMask;
+    public GlobalVariable globalVar;
     private float lastParticleTime;
     public float walkParticleCooldown;
     public float trailParticleCooldown;
@@ -853,17 +853,17 @@ public class PlayerController : MonoBehaviour
     
     public void GroundCheck()
     {
-        _grounded = Physics2D.BoxCast(groundDetectPos.position, groundDetectRange, 0, Vector2.down, .05f, groundMask);
+        _grounded = Physics2D.BoxCast(groundDetectPos.position, groundDetectRange, 0, Vector2.down, .05f, globalVar.groundMask);
 
     }
     public void RoofCheck()
     {
-        _roofed = Physics2D.CircleCast(roofDetectPos.position, roofDetectRange, Vector2.down, 0.05f, groundMask);
+        _roofed = Physics2D.CircleCast(roofDetectPos.position, roofDetectRange, Vector2.down, 0.05f, globalVar.groundMask);
     }
     public void WallCheck()
     {
-        _walledLeft = Physics2D.CircleCast(wallLeftDetectPos.position, wallDetectRange, Vector2.left, 0.05f, groundMask);
-        _walledRight = Physics2D.CircleCast(wallRightDetectPos.position, wallDetectRange, Vector2.right, 0.05f, groundMask);
+        _walledLeft = Physics2D.CircleCast(wallLeftDetectPos.position, wallDetectRange, Vector2.left, 0.05f, globalVar.groundMask);
+        _walledRight = Physics2D.CircleCast(wallRightDetectPos.position, wallDetectRange, Vector2.right, 0.05f, globalVar.groundMask);
     }
 
 

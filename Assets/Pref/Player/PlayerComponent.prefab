@@ -332,9 +332,7 @@ MonoBehaviour:
   roofDetectRange: 0.11
   wallDetectRange: 0.15
   wallDrag: 2
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 136
+  globalVar: {fileID: 11400000, guid: 12cbe35975d656343b55e07cc58b5d89, type: 2}
   walkParticleCooldown: 0.1
   trailParticleCooldown: 0.001
   unstickWallTime: 0.2
