@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
         }
         if(VerticalInput < 0)
         {
+            rb.velocity = Vector2.zero;
             _activateSpawnPoint = true;
             activateSpawnPointTimer -= Time.deltaTime;
             if(activateSpawnPointTimer <= 0)
@@ -266,9 +267,8 @@ public class PlayerController : MonoBehaviour
     public void KnockBack(float knockMultiplier = 1f)
     {
         Debug.Log("knmock");
-        canMove = false;
         rb.velocity = new Vector2(0, rb.velocity.y);
-        rb.AddForce(_facingRight? Vector2.left : Vector2.right * knockMultiplier, ForceMode2D.Impulse);
+        rb.AddForce((_facingRight? Vector2.left : Vector2.right) * knockMultiplier, ForceMode2D.Impulse);
 
         StartCoroutine(KnockBackTime());
     }

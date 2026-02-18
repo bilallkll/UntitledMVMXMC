@@ -68,13 +68,19 @@ public class EnemyHurtBox : MonoBehaviour
 
     public void KnockBack()
     {
-        controller.KnockBack(playerKnockBack);
+        if (!controller._facingUp && !controller._facingDown)
+        {
+            controller.KnockBack(playerKnockBack);
+        }
         if (isFly && (controller._facingUp || (controller._facingDown && !controller._grounded)))
         {
+            rb.velocity = new Vector2(rb.velocity.y, 0);
             rb?.AddForce((controller._facingUp ? Vector2.up : Vector2.down) * knockBack, ForceMode2D.Impulse);
         }
         else
         {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+
             rb?.AddForce((controller._facingRight ? Vector2.right : Vector2.left) * knockBack, ForceMode2D.Impulse);
         }
 
