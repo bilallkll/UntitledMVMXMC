@@ -10,9 +10,11 @@ public class EnemyHurtBox : MonoBehaviour
     public Rigidbody2D rb;
     [Header("Death")]
     public Collider2D col;
+    public Collider2D hurtCol;
     public Animator spriteAnim;
     public Instantiatedd instantiated;
     [Header("Hurt Effect")]
+    public float invicibilityTime;
     public Animator hurtAnim;
     public AudioSource hurtSfx;
     public float knockBack;
@@ -33,6 +35,7 @@ public class EnemyHurtBox : MonoBehaviour
     public void TakeDamage()
     {
         health--;
+        StartCoroutine(InvicibilityTime());
         DamageEffect();
 
         if (health <= 0)
@@ -92,6 +95,12 @@ public class EnemyHurtBox : MonoBehaviour
         }
 
 
+    }
+    IEnumerator InvicibilityTime()
+    {
+        hurtCol.enabled = false;
+        yield return new WaitForSeconds(invicibilityTime);
+        hurtCol.enabled = true;
     }
     IEnumerator KnockBackTime()
     {

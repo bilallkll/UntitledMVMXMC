@@ -10,6 +10,9 @@ public class SimpleEnemy : MonoBehaviour
 
     [Header("Component")]
     Rigidbody2D rb;
+
+    [Header("Wall Detection")]
+    public float wallDetectHeight;
     [Header("Ground Detection")]
     public Vector2 rightGroundRaycastPos;
     public Vector2 leftGroundRaycastPos;
@@ -19,6 +22,8 @@ public class SimpleEnemy : MonoBehaviour
     public bool canMove = true;
     bool groundLeft;
     bool groundRight;
+    bool wallLeft;
+    bool wallRight;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,6 +31,7 @@ public class SimpleEnemy : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheck();
+        WallCheck();
     }
     private void Update()
     {
@@ -41,6 +47,15 @@ public class SimpleEnemy : MonoBehaviour
             facingRight = true;
         }
         else if(!groundRight && facingRight)
+        {
+            facingRight = false;
+
+        }
+        else if(wallLeft && !facingRight)
+        {
+            facingRight = true;
+        }
+        else if (wallRight && facingRight)
         {
             facingRight = false;
 
@@ -62,6 +77,18 @@ public class SimpleEnemy : MonoBehaviour
 
         Debug.DrawRay((Vector2)transform.position + rightGroundRaycastPos, Vector2.down * groundDetectHeight, Color.magenta);
         Debug.DrawRay((Vector2)transform.position + leftGroundRaycastPos, Vector2.down * groundDetectHeight, Color.magenta);
+    }
+    public void WallCheck()
+    {
+        RaycastHit2D hitLeft = Physics2D.Raycast((Vector2)transform.position + Vector2.down * .5f, Vector2.left, wallDetectHeight, globalVar.groundMask);
+        RaycastHit2D hitRight = Physics2D.Raycast((Vector2)transform.position + Vector2.down * .5f, Vector2.right, wallDetectHeight, globalVar.groundMask);
+
+        wallLeft = hitLeft.collider != null;
+        wallRight = hitRight.collider != null;
+
+
+        Debug.DrawRay((Vector2)transform.position + Vector2.down * .5f, Vector2.left * wallDetectHeight, Color.magenta);
+        Debug.DrawRay((Vector2)transform.position + Vector2.down * .5f, Vector2.right * wallDetectHeight, Color.magenta);
     }
 }
              
