@@ -238,7 +238,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 193
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -274,13 +274,17 @@ MonoBehaviour:
   health: 999999999
   rb: {fileID: 4151485497005600555}
   col: {fileID: 5446672323806414749}
+  hurtCol: {fileID: 5446672323806414749}
   spriteAnim: {fileID: 1674759521056310473}
   instantiated: {fileID: 409073980245622681}
+  invicibilityTime: 0.1
   hurtAnim: {fileID: 1674759521056310473}
   hurtSfx: {fileID: 4077394626556356919}
   knockBack: 5
-  bigAttackKnockBack: 8
+  playerKnockBack: 0
   pogoMultiplier: 2
+  knockBackTime: 0
+  enemy: {fileID: 0}
 --- !u!114 &409073980245622681
 MonoBehaviour:
   m_ObjectHideFlags: 0

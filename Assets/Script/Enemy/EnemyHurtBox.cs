@@ -104,6 +104,7 @@ public class EnemyHurtBox : MonoBehaviour
     }
     IEnumerator KnockBackTime()
     {
+        if(enemy == null) yield break;
         enemy.canMove = false;
         yield return new WaitForSeconds(knockBackTime);
         enemy.canMove = true;
