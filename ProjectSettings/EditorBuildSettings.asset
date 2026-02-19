@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LeftHear.unity
     guid: 230689f77021ff7458eb95dd50906fff
+  - enabled: 1
+    path: Assets/Scenes/Cave.unity
+    guid: 629334815854b184683e6a28b2a1d7ec
   m_configObjects: {}
