@@ -202,8 +202,8 @@ TextureImporter:
       name: testCaveTile_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
+        x: 48
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -223,8 +223,8 @@ TextureImporter:
       name: testCaveTile_4
       rect:
         serializedVersion: 2
-        x: 16
-        y: 96
+        x: 64
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -244,7 +244,7 @@ TextureImporter:
       name: testCaveTile_5
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 96
         width: 16
         height: 16
@@ -265,8 +265,8 @@ TextureImporter:
       name: testCaveTile_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 80
+        x: 16
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -286,8 +286,8 @@ TextureImporter:
       name: testCaveTile_7
       rect:
         serializedVersion: 2
-        x: 16
-        y: 80
+        x: 32
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -307,8 +307,8 @@ TextureImporter:
       name: testCaveTile_8
       rect:
         serializedVersion: 2
-        x: 32
-        y: 80
+        x: 48
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -320,6 +320,90 @@ TextureImporter:
       bones: []
       spriteID: 7aa3c7f13830a37439b619ce296df415
       internalID: -1299219683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: testCaveTile_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70c62ba0d2b85be45b0075dd2c40efef
+      internalID: -2005488627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: testCaveTile_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f274608119bd3549bd3e9e96f830eb6
+      internalID: 1511745828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: testCaveTile_11
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2362ce52ab79681499d718d9f44de5b2
+      internalID: -101975014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: testCaveTile_12
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 579e19a354c5e28449ceb3b22c4b0c5c
+      internalID: 789778610
       vertices: []
       indices: 
       edges: []
@@ -337,6 +421,9 @@ TextureImporter:
     nameFileIdTable:
       testCaveTile_0: 478039960
       testCaveTile_1: -352876077
+      testCaveTile_10: 1511745828
+      testCaveTile_11: -101975014
+      testCaveTile_12: 789778610
       testCaveTile_2: -522616347
       testCaveTile_3: 1395375433
       testCaveTile_4: 1175119584
@@ -344,6 +431,7 @@ TextureImporter:
       testCaveTile_6: -1985215706
       testCaveTile_7: -1187567028
       testCaveTile_8: -1299219683
+      testCaveTile_9: -2005488627
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
