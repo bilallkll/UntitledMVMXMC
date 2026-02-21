@@ -15,3 +15,4 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 136
+  drawMarkTreshold: 0.25
