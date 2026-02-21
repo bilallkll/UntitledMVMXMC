@@ -131,7 +131,6 @@ public class Drawingmech : MonoBehaviour
                             }
                         }
                         dots[sym.symbolPatern[drawIndex + 1] - 1].canBeNext = true;
-                        Debug.Log(dots[sym.symbolPatern[drawIndex] - 1]);
                     }
 
                 }
