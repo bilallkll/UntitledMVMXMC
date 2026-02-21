@@ -9,18 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e98f404e0d50b4eafe43a73c75fe53, type: 3}
-  m_Name: GlobalVar
+  m_Script: {fileID: 11500000, guid: 03da62ca75a2d374fb03aa019187e859, type: 3}
+  m_Name: SuperCruz
   m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 136
-  drawMarkTreshold:
-  - 0.7
-  - 0.6
-  - 0.3
-  - 0.3
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
+  symbolPatern: 070000000500000003000000060000000900000001000000
+  isThisSymbol: 1
+  symbolEvent: 1

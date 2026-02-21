@@ -302,7 +302,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Movementing");
+        //Debug.Log("Movementing");
         //Move Player
         HorizontalInput = move.action.ReadValue<Vector2>().x;
         VerticalInput = move.action.ReadValue<Vector2>().y;

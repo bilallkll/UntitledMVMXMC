@@ -4,5 +4,5 @@ using UnityEngine;
 public class GlobalVariable : ScriptableObject
 {
     public LayerMask groundMask;
-    public float drawMarkTreshold;
+    public float[] drawMarkTreshold;
 }

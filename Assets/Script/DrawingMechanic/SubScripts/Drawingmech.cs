@@ -21,10 +21,9 @@ public class Drawingmech : MonoBehaviour
     bool checkedDrawing;
     [Header("Combos")]
     public int drawIndex;
-    public DrawMark[] cross;
-    public bool isCross;
-    public DrawMark[] roof;
-    public bool isRoof;
+    public DrawMark[] dots;
+    public SymbolPatern[] symbPatern;
+    public UnityEvent[] symbEvents;
 
 
 
@@ -71,8 +70,11 @@ public class Drawingmech : MonoBehaviour
     {
         cursorStartPos = cursorPos;
         checkedDrawing = false;
-        isCross = true;
-        isRoof = true;
+        foreach (SymbolPatern sym in symbPatern)
+        {
+            sym.isThisSymbol = true;
+        }
+        dots[6].canBeNext = true;
         marksParent.SetActive(true);
         marksParent.transform.position = cursorPos;
     }
@@ -97,32 +99,49 @@ public class Drawingmech : MonoBehaviour
 
     public void MarkCheck(GameObject mark)
     {
-
-        if (drawIndex < cross.Length)
+        //mark cleaner
+        foreach (DrawMark dot in dots)
         {
-            if (cross[drawIndex].gameObject != mark.gameObject)
+            dot.solutionNumber = 0;
+            dot.canBeNext = false;
+        }
+        foreach (SymbolPatern sym in symbPatern)
+        {
+            if (drawIndex < sym.symbolPatern.Length)
             {
-                isCross = false;
+                if (dots[sym.symbolPatern[drawIndex] - 1].gameObject != mark.gameObject)
+                {
+                    sym.isThisSymbol = false;
 
+                }
+                else
+                {
+
+                    
+                    //only let the next possible dot and this dot active
+
+                    dots[sym.symbolPatern[drawIndex] - 1].canBeNext = true;
+                    if(drawIndex+1 < sym.symbolPatern.Length)
+                    {
+                        foreach (DrawMark dot in dots)
+                        {
+                            if (dot.canBeNext == false)
+                            {
+                                dot.solutionNumber++;
+                            }
+                        }
+                        dots[sym.symbolPatern[drawIndex + 1] - 1].canBeNext = true;
+                        Debug.Log(dots[sym.symbolPatern[drawIndex] - 1]);
+                    }
+
+                }
             }
-        }
-        else
-        {
-            isCross = false;
-        }
-
-
-        if (drawIndex < roof.Length)
-        {
-            if (roof[drawIndex].gameObject != mark.gameObject)
+            else
             {
-                isRoof = false;
-
+                sym.isThisSymbol = false;
             }
-        }
-        else
-        {
-            isRoof = false;
+
+
         }
             
         drawIndex++;
@@ -132,36 +151,23 @@ public class Drawingmech : MonoBehaviour
     public void MarkActivator()
     {
 
-        if(isCross && drawIndex == cross.Length)
+        foreach (SymbolPatern sym in symbPatern) 
         {
-            CrossedEffect();
+            if (sym.isThisSymbol && drawIndex == sym.symbolPatern.Length)
+            {
+                symbEvents[sym.symbolEvent].Invoke();
+            }
+            sym.isThisSymbol = false;
         }
-        else if(isRoof && drawIndex == roof.Length)
-        {
-            Debug.Log("Roofed");
-        }
-
-
-
 
         foreach(Transform mark in markerParent.transform)
         {
             mark.GetComponent<DrawMark>().ResetMark();
         }
-        isCross = false;
-        isRoof = false;
     }
 
 
-    public void CrossedEffect()
-    {
-        Debug.Log("TryCross");
-        if (markerParent.isTouchingWeakWall)
-        {
-            Debug.Log("Crosseeed");
-            Destroy(markerParent.weakWall);
-        }
-    }
+    
 
 
 }

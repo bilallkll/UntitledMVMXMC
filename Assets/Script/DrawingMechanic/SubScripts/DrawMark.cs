@@ -9,15 +9,18 @@ public class DrawMark : MonoBehaviour
     public Drawingmech drawScript; 
     SpriteRenderer spriteRenderer;
     public bool isDrawn;
+    public bool canBeNext;
+    public int solutionNumber;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+
     void Update()
     {
         float distance = Vector2.Distance(cursor.transform.position, transform.position);
-        if (distance < globalVar.drawMarkTreshold && drawScript.isDrawing && !isDrawn)
+        if (distance < globalVar.drawMarkTreshold[solutionNumber] && drawScript.isDrawing && !isDrawn && canBeNext)
         {
             spriteRenderer.color = Color.red;
             isDrawn = true;
@@ -27,6 +30,14 @@ public class DrawMark : MonoBehaviour
         else if(drawScript.isDrawing == false && isDrawn)
         {
             ResetMark();
+        }
+        if (!canBeNext)
+        {
+            spriteRenderer.color = Color.clear;
+        }
+        else if(spriteRenderer.color == Color.clear)
+        {
+            spriteRenderer.color = Color.white;
         }
     }
     public void ResetMark()
