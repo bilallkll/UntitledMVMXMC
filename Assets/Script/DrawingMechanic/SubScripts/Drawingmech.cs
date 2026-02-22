@@ -11,16 +11,16 @@ public class Drawingmech : MonoBehaviour
     Vector2 cursorPos;
     Vector2 cursorStartPos;
     public GameObject marksParent;
-    public Vector2 MaxMinHorizontal;
-    public Vector2 MaxMinVertical;
+    public Vector2 MaxMinHorizontalDraw;
+    public Vector2 MaxMinVerticalDraw;
     public MarkerParent markerParent;
     [Header("Input")]
     public InputActionReference drawInput;
     public InputActionReference controllerCursorInput;
+    public float mouseSensitivity = 0.01f;
     public float controllerSensibility;
     public float controllerSensibilityDrawing;
     public float maxCursorDistanceFromCam;
-    bool tooFarFromCam;
     [Header("Bool")]
     public bool isDrawing;
     bool checkedDrawing;
@@ -31,11 +31,14 @@ public class Drawingmech : MonoBehaviour
     public SymbolPatern[] symbPatern;
     public UnityEvent[] symbEvents;
 
-
+    private Camera cam;
 
     private void Start()
     {
+        cam = Camera.main; 
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        isKeyboardAndMouse = true;
     }
     private void OnEnable()
     {
@@ -46,7 +49,8 @@ public class Drawingmech : MonoBehaviour
         drawInput.action.started -= StartDrawmech;
     }
 
-        
+      
+    
     void Update()
     {
         ControllerAndMouseDetection();
@@ -67,6 +71,7 @@ public class Drawingmech : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             isKeyboardAndMouse = true;
+            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
         else if (Gamepad.current != null && (Gamepad.current.buttonSouth.wasPressedThisFrame || Gamepad.current.rightStick.ReadValue().magnitude > 0.1f))
@@ -80,29 +85,35 @@ public class Drawingmech : MonoBehaviour
     {
         if (isKeyboardAndMouse)
         {
-            
-            cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Vector2 delta = Mouse.current.delta.ReadValue();
+
+            cursorPos += delta * mouseSensitivity;
         }
         else
         {
             cursorPos += controllerCursorInput.action.ReadValue<Vector2>() * (isDrawing? controllerSensibilityDrawing : controllerSensibility);
-            float distance = Vector2.Distance(cursorPos, transform.position);
-            if(maxCursorDistanceFromCam <= distance)
-            {
-                tooFarFromCam = true;
-            }
-            else
-            {
-                tooFarFromCam = false;
-            }
-            if(tooFarFromCam && cursorPos != (Vector2)cursor.position)
-            {
-                cursorPos = cursor.position;
-            }
         }
+
+        //Get Cam values
+        float camHeight = cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
+
+        Vector3 camPos = cam.transform.position;
+
+        float minX = camPos.x - camWidth;
+        float maxX = camPos.x + camWidth;
+        float minY = camPos.y - camHeight;
+        float maxY = camPos.y + camHeight;
+
+        //Clamp
         if (isDrawing)
-            cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, cursorStartPos.x + 0, cursorStartPos.x + MaxMinHorizontal.y),
-                Mathf.Clamp(cursorPos.y, cursorStartPos.y + 0, cursorStartPos.y + MaxMinVertical.y));
+            cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, cursorStartPos.x + 0, cursorStartPos.x + MaxMinHorizontalDraw.y),
+                Mathf.Clamp(cursorPos.y, cursorStartPos.y + 0, cursorStartPos.y + MaxMinHorizontalDraw.y));
+        else
+            cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, minX, maxX),Mathf.Clamp(cursorPos.y, minY, maxY));
+
+        //actual changing
         cursor.position = cursorPos;
     }
 
@@ -193,14 +204,19 @@ public class Drawingmech : MonoBehaviour
 
         foreach (SymbolPatern sym in symbPatern) 
         {
-            if (sym.isThisSymbol && drawIndex == sym.symbolPatern.Length)
+            if (sym.isThisSymbol == true && drawIndex == sym.symbolPatern.Length)
             {
                 symbEvents[sym.symbolEvent].Invoke();
+                break;
             }
             sym.isThisSymbol = false;
         }
+        foreach (SymbolPatern sym in symbPatern)
+        {
+            sym.isThisSymbol = false;
+        }
 
-        foreach(Transform mark in markerParent.transform)
+        foreach (Transform mark in markerParent.transform)
         {
             mark.GetComponent<DrawMark>()?.ResetMark();
         }
