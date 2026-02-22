@@ -11,6 +11,7 @@ public class DrawMark : MonoBehaviour
     public bool isDrawn;
     public bool canBeNext;
     public int solutionNumber;
+    float treshold;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,26 +20,31 @@ public class DrawMark : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector2.Distance(cursor.transform.position, transform.position);
-        if (distance < globalVar.drawMarkTreshold[solutionNumber] && drawScript.isDrawing && !isDrawn && canBeNext)
+        float distance = Vector2.Distance(cursor.transform.position, transform.position); 
+        if(!canBeNext)
         {
+            treshold = .1f;
+            spriteRenderer.color = Color.gray;
+        }
+        else
+        {
+
+            spriteRenderer.color = Color.white;
+            treshold = globalVar.drawMarkTreshold[solutionNumber];
+        }
+        if (distance < treshold  && drawScript.isDrawing && !isDrawn)
+        {
+
             spriteRenderer.color = Color.red;
             isDrawn = true;
 
             drawScript.MarkCheck(gameObject);
         }
-        else if(drawScript.isDrawing == false && isDrawn)
+        else if (drawScript.isDrawing == false && isDrawn)
         {
             ResetMark();
         }
-        if (!canBeNext)
-        {
-            spriteRenderer.color = Color.clear;
-        }
-        else if(spriteRenderer.color == Color.clear)
-        {
-            spriteRenderer.color = Color.white;
-        }
+        
     }
     public void ResetMark()
     {

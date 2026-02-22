@@ -612502,11 +612502,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6455065194383103896, guid: d9d4e764af4fe8c4d9be433d1ef18e5d, type: 3}
       propertyPath: lastSceneName
-      value: Cave
+      value: NewCave
       objectReference: {fileID: 0}
     - target: {fileID: 6455065194383103896, guid: d9d4e764af4fe8c4d9be433d1ef18e5d, type: 3}
       propertyPath: nextSceneName
-      value: Cave
+      value: NewCave
       objectReference: {fileID: 0}
     - target: {fileID: 6455065194383103896, guid: d9d4e764af4fe8c4d9be433d1ef18e5d, type: 3}
       propertyPath: sceneTransitionTime

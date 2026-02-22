@@ -18,6 +18,7 @@ public class Drawingmech : MonoBehaviour
     public InputActionReference drawInput;
     public InputActionReference controllerCursorInput;
     public float controllerSensibility;
+    public float controllerSensibilityDrawing;
     public float maxCursorDistanceFromCam;
     bool tooFarFromCam;
     [Header("Bool")]
@@ -84,7 +85,7 @@ public class Drawingmech : MonoBehaviour
         }
         else
         {
-            cursorPos += controllerCursorInput.action.ReadValue<Vector2>() * controllerSensibility;
+            cursorPos += controllerCursorInput.action.ReadValue<Vector2>() * (isDrawing? controllerSensibilityDrawing : controllerSensibility);
             float distance = Vector2.Distance(cursorPos, transform.position);
             if(maxCursorDistanceFromCam <= distance)
             {
@@ -201,7 +202,7 @@ public class Drawingmech : MonoBehaviour
 
         foreach(Transform mark in markerParent.transform)
         {
-            mark.GetComponent<DrawMark>().ResetMark();
+            mark.GetComponent<DrawMark>()?.ResetMark();
         }
     }
 
