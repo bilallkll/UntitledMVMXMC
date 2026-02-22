@@ -173,6 +173,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &64810041
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15186,12 +15187,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718525169}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.150021, y: 14.052056, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.3499794, y: -0.4479437, z: 10.028352}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 779758051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &779758044
 PrefabInstance:
@@ -15275,7 +15276,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4827287063002538648, guid: 6bc625c05f4fcc642820c7d3590a5ebb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 718525171}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4840533562830784877, guid: 6bc625c05f4fcc642820c7d3590a5ebb, type: 3}
       insertIndex: -1
@@ -15308,6 +15312,9 @@ MonoBehaviour:
   MaxMinVertical: {x: 0, y: 2}
   markerParent: {fileID: 845709108}
   drawInput: {fileID: 7705698064706230259, guid: b3c8b2689bbb10c458ba00a005ff997d, type: 3}
+  controllerCursorInput: {fileID: 4961877453995363683, guid: b3c8b2689bbb10c458ba00a005ff997d, type: 3}
+  controllerSensibility: 0.1
+  maxCursorDistanceFromCam: 9
   isDrawing: 0
   drawIndex: 0
   dots:
@@ -15367,6 +15374,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!4 &779758051 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4827287063002538648, guid: 6bc625c05f4fcc642820c7d3590a5ebb, type: 3}
+  m_PrefabInstance: {fileID: 779758044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &779758052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15430,6 +15442,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &836172873
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15568,7 +15581,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
 --- !u!114 &845709108
 MonoBehaviour:
@@ -17104,6 +17117,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!1 &1136822930
 GameObject:
   m_ObjectHideFlags: 0
@@ -28198,6 +28212,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &1139565275
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28865,6 +28880,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &1894728760
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28967,6 +28983,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &1995543651
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29085,6 +29102,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &2047303400
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29187,6 +29205,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &2092284210
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29289,6 +29308,7 @@ MonoBehaviour:
   drawScript: {fileID: 779758046}
   isDrawn: 0
   canBeNext: 0
+  solutionNumber: 0
 --- !u!212 &2116644905
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29350,7 +29370,6 @@ SceneRoots:
   - {fileID: 1870014633}
   - {fileID: 779758044}
   - {fileID: 1736112967}
-  - {fileID: 718525171}
   - {fileID: 1614005528}
   - {fileID: 688425068}
   - {fileID: 845709106}

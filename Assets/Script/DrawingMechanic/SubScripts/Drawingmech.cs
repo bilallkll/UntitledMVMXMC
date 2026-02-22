@@ -16,9 +16,14 @@ public class Drawingmech : MonoBehaviour
     public MarkerParent markerParent;
     [Header("Input")]
     public InputActionReference drawInput;
+    public InputActionReference controllerCursorInput;
+    public float controllerSensibility;
+    public float maxCursorDistanceFromCam;
+    bool tooFarFromCam;
     [Header("Bool")]
     public bool isDrawing;
     bool checkedDrawing;
+    bool isKeyboardAndMouse;
     [Header("Combos")]
     public int drawIndex;
     public DrawMark[] dots;
@@ -43,6 +48,7 @@ public class Drawingmech : MonoBehaviour
         
     void Update()
     {
+        ControllerAndMouseDetection();
         CursorFollow();
         //Draw when clicking
         if (drawInput.action.ReadValue<float>() > 0)
@@ -55,12 +61,46 @@ public class Drawingmech : MonoBehaviour
         }
     }
 
+    public void ControllerAndMouseDetection()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            isKeyboardAndMouse = true;
+            Cursor.visible = false;
+        }
+        else if (Gamepad.current != null && (Gamepad.current.buttonSouth.wasPressedThisFrame || Gamepad.current.rightStick.ReadValue().magnitude > 0.1f))
+        {
+            isKeyboardAndMouse = false;
+        }
+         
+    }
 
     public void CursorFollow()
     {
-        cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if(isDrawing)
-            cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, cursorStartPos.x + 0, cursorStartPos.x + MaxMinHorizontal.y), 
+        if (isKeyboardAndMouse)
+        {
+            
+            cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+        else
+        {
+            cursorPos += controllerCursorInput.action.ReadValue<Vector2>() * controllerSensibility;
+            float distance = Vector2.Distance(cursorPos, transform.position);
+            if(maxCursorDistanceFromCam <= distance)
+            {
+                tooFarFromCam = true;
+            }
+            else
+            {
+                tooFarFromCam = false;
+            }
+            if(tooFarFromCam && cursorPos != (Vector2)cursor.position)
+            {
+                cursorPos = cursor.position;
+            }
+        }
+        if (isDrawing)
+            cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, cursorStartPos.x + 0, cursorStartPos.x + MaxMinHorizontal.y),
                 Mathf.Clamp(cursorPos.y, cursorStartPos.y + 0, cursorStartPos.y + MaxMinVertical.y));
         cursor.position = cursorPos;
     }
