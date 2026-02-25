@@ -33544,7 +33544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4526899348185986402, guid: 6bc625c05f4fcc642820c7d3590a5ebb, type: 3}
       propertyPath: maxHorizontal.y
-      value: 34
+      value: 28.3
       objectReference: {fileID: 0}
     - target: {fileID: 4827287063002538648, guid: 6bc625c05f4fcc642820c7d3590a5ebb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33590,7 +33590,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor: {fileID: 718525171}
   trailEff: {fileID: 1614005529}
-  cursorOffset: {x: -40.3, y: 0}
   marksParent: {fileID: 845709105}
   MaxMinHorizontalDraw: {x: 0, y: 2}
   MaxMinVerticalDraw: {x: 0, y: 2}
@@ -73400,7 +73399,7 @@ Transform:
   m_GameObject: {fileID: 1736112962}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34, y: 11.66, z: -10.028352}
+  m_LocalPosition: {x: 28.3, y: 9.06, z: -10.028352}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

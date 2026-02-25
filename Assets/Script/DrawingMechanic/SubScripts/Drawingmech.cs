@@ -10,7 +10,6 @@ public class Drawingmech : MonoBehaviour
     public TrailRenderer trailEff;
     Vector2 cursorPos;
     Vector2 cursorStartPos;
-    public Vector2 cursorOffset;
     public GameObject marksParent;
     public Vector2 MaxMinHorizontalDraw;
     public Vector2 MaxMinVerticalDraw;
@@ -115,7 +114,7 @@ public class Drawingmech : MonoBehaviour
             cursorPos = new Vector2(Mathf.Clamp(cursorPos.x, minX, maxX),Mathf.Clamp(cursorPos.y, minY, maxY));
 
         //actual changing
-        cursor.position = (Vector2)cam.transform.position + cursorPos + cursorOffset;
+        cursor.position = cursorPos;
     }
 
 
