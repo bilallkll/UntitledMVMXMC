@@ -21,7 +21,7 @@ public class SceneManagea : MonoBehaviour
         //set last Scene
         PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
         fadeAnim.SetTrigger("Fade");
-        controller.disableMovement = true;
+        controller.disableMovementTeleport = true;
 
         //next Scene
         StartCoroutine(SceneChangeDelay(sceneName));

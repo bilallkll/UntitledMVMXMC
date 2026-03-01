@@ -6,42 +6,49 @@ using UnityEngine;
 public class EnemyHurtBox : MonoBehaviour
 {
     public bool isFly;
-    public int health;
+    public int health = 3;
     public Rigidbody2D rb;
     [Header("Death")]
     public Collider2D col;
     public Collider2D hurtCol;
     public Animator spriteAnim;
     public Instantiatedd instantiated;
+    public GameObject deathEffect;
     [Header("Hurt Effect")]
-    public float invicibilityTime;
+    public GameObject hurtEffect;
+    public float invicibilityTime = 0.4f;
     public Animator hurtAnim;
     public AudioSource hurtSfx;
-    public float knockBack;
-    public float playerKnockBack;
+    public float knockBack = 5;
+    public float playerKnockBack = 4;
     PlayerController controller;
     public float pogoMultiplier = 1;
-    public float knockBackTime;
+    public float knockBackTime = .2f;
     public SimpleEnemy enemy;
+    public ObjectShake objShake;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerHitbox"))
         {
-            TakeDamage();
+            TakeDamage(collision.ClosestPoint(transform.position));
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector2 contactpos)
     {
         health--;
-        StartCoroutine(InvicibilityTime());
-        DamageEffect();
+        if (hurtEffect) Instantiate(hurtEffect, contactpos, Quaternion.identity);
 
         if (health <= 0)
         {
             Death();
             return;
+        }
+        else
+        {
+            StartCoroutine(InvicibilityTime());
+            DamageEffect();
         }
 
 
@@ -60,16 +67,18 @@ public class EnemyHurtBox : MonoBehaviour
         {
             KnockBack();
         }
-        hurtAnim?.SetTrigger("Hurt");
-        hurtSfx?.Play();
+        if(objShake)objShake.shake = true;
+        if (hurtAnim) hurtAnim.SetTrigger("Hurt");
+        if (hurtSfx) hurtSfx.Play();
     }
 
     public void Death()
     {
-        rb.isKinematic = true;
-        spriteAnim.SetTrigger("Death");
-        col.enabled = false;
+        if(rb)rb.isKinematic = true;
+        if(spriteAnim)spriteAnim.SetTrigger("Death");
+        if(col)col.enabled = false;
         instantiated.enabled = true;
+        if(deathEffect)Instantiate(deathEffect, transform.position, Quaternion.identity);
     }
 
     public void KnockBack()
@@ -80,16 +89,16 @@ public class EnemyHurtBox : MonoBehaviour
         }
         if (isFly && (controller._facingUp || (controller._facingDown && !controller._grounded)))
         {
-            rb.velocity = new Vector2(rb.velocity.y, 0);
-            rb?.AddForce((controller._facingUp ? Vector2.up : Vector2.down) * knockBack, ForceMode2D.Impulse);
+            if(rb)rb.velocity = new Vector2(rb.velocity.y, 0);
+            if(rb)rb.AddForce((controller._facingUp ? Vector2.up : Vector2.down) * knockBack, ForceMode2D.Impulse);
             StartCoroutine(KnockBackTime());
 
         }
         else
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            if (rb) rb.velocity = new Vector2(rb.velocity.x, 0);
 
-            rb?.AddForce((controller._facingRight ? Vector2.right : Vector2.left) * knockBack, ForceMode2D.Impulse);
+            if (rb) rb.AddForce((controller._facingRight ? Vector2.right : Vector2.left) * knockBack, ForceMode2D.Impulse);
             StartCoroutine(KnockBackTime());
 
         }

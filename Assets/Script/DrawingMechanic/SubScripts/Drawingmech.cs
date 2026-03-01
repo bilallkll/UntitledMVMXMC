@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Drawingmech : MonoBehaviour
 {
+    public PlayerController controller;
     public Transform cursor;
     public TrailRenderer trailEff;
     Vector2 cursorPos;
@@ -14,6 +15,7 @@ public class Drawingmech : MonoBehaviour
     public Vector2 MaxMinHorizontalDraw;
     public Vector2 MaxMinVerticalDraw;
     public MarkerParent markerParent;
+    public float drawingTimeSpeed;
     [Header("Input")]
     public InputActionReference drawInput;
     public InputActionReference controllerCursorInput;
@@ -55,6 +57,7 @@ public class Drawingmech : MonoBehaviour
     {
         ControllerAndMouseDetection();
         CursorFollow();
+        DrawSideEffect();
         //Draw when clicking
         if (drawInput.action.ReadValue<float>() > 0)
         {
@@ -63,6 +66,23 @@ public class Drawingmech : MonoBehaviour
         else
         {
             UnDrawMech();
+        }
+    }
+
+
+    public void DrawSideEffect()
+    {
+        if (isDrawing)
+        {
+            Time.timeScale = drawingTimeSpeed;
+            Time.fixedDeltaTime = 0.02F * Time.timeScale;
+            controller.disableMovementDraw = true;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            Time.fixedDeltaTime = 0.02F;
+            controller.disableMovementDraw = false;
         }
     }
 

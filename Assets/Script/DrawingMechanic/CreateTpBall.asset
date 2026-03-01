@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03da62ca75a2d374fb03aa019187e859, type: 3}
-  m_Name: SuperCruz
+  m_Name: CreateTpBall
   m_EditorClassIdentifier: 
   symbolPatern: 070000000500000003000000060000000900000001000000
   isThisSymbol: 1

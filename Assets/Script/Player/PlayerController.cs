@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     [Header("ForOtherScripts")]
     public bool disableMovement;
+    [HideInInspector]public bool disableMovementTeleport;
+    [HideInInspector]public bool disableMovementDraw;
+    [HideInInspector]public bool spawnPointApparition;
+
     [Header("Values")]
     public float speed;
     public float acceleration;
@@ -167,7 +171,7 @@ public class PlayerController : MonoBehaviour
         Direction(false);
         AnimHandler();
         SpawnInputPoint();
-        if (disableMovement)
+        if (disableMovement || disableMovementDraw)
         {
             walkSfx.Stop();
             return;
@@ -194,7 +198,7 @@ public class PlayerController : MonoBehaviour
         jump.action.started += JumpStart;
         dash.action.started += DashStart;
         attack.action.started += Attack;
-        teleportToSP.action.started += GoBackToSpawn;
+        //teleportToSP.action.started += GoBackToSpawn;
     }
     private void OnDisable()
     {
@@ -202,17 +206,17 @@ public class PlayerController : MonoBehaviour
         dash.action.started -= DashStart;
         attack.action.started -= Attack;
 
-        teleportToSP.action.started -= GoBackToSpawn;
+        //teleportToSP.action.started -= GoBackToSpawn;
     }
     public void SpawnInputPoint()
     {
-        if (createSpawnPoint.action.ReadValue<float>() <= 0 || !_grounded)
+        if (/*createSpawnPoint.action.ReadValue<float>() <= 0 ||*/!spawnPointApparition || !_grounded)
         {
             activateSpawnPointTimer = activateSpawnPointTime;
             _activateSpawnPoint = false;
             return;
         }
-        if(VerticalInput < 0)
+        if(HorizontalInput == 0)
         {
             rb.velocity = Vector2.zero;
             _activateSpawnPoint = true;
@@ -224,6 +228,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            spawnPointApparition = false;
             activateSpawnPointTimer = activateSpawnPointTime;
             _activateSpawnPoint = false;
         }
@@ -234,26 +239,25 @@ public class PlayerController : MonoBehaviour
         Destroy(thisSpawnPoint);
         thisSpawnPoint = Instantiate(spawnPoint, transform.position + Vector3.up * spawnPointHeight, Quaternion.identity);
         activateSpawnPointTimer = activateSpawnPointTime;
+        spawnPointApparition = false;
     }
-    public void GoBackToSpawn(InputAction.CallbackContext obj)
+    public void GoBackToSpawn(/*InputAction.CallbackContext obj*/)
     {
         if (thisSpawnPoint == null) return;
-
-        if(!_attacking && !_dash)
-        {
-            StartCoroutine(TeleportDelay());
-        }
+            
+        StartCoroutine(TeleportDelay());
+        
     }
     
     IEnumerator TeleportDelay()
     {
         yield return new WaitForSeconds(disapearDelay);
-        disableMovement = true;
+        disableMovementTeleport = true;
         rb.velocity = Vector2.zero;
         transform.position = thisSpawnPoint.transform.position;
         Destroy(thisSpawnPoint);
         yield return new WaitForSeconds(reapearDelay);
-        disableMovement = false;
+        disableMovementTeleport = false;
     }
 
     public void Pogo(float pogoMultiplier = 1f)
@@ -416,7 +420,7 @@ public class PlayerController : MonoBehaviour
 
     public void JumpStart(InputAction.CallbackContext obj)
     {
-        if (disableMovement) return;
+        if (disableMovement || disableMovementTeleport || disableMovementDraw) return;
         if (_grounded && !_jumping && canJump && !_wallSticked && !_dash && !_attacking && !_activateSpawnPoint)
         {
             Debug.Log("JumpStart");
@@ -462,7 +466,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (_jumping && jump.action.ReadValue<float>() > 0 && !_dash)
+        if (_jumping && jump.action.ReadValue<float>() > 0)
         {
             
             if (jumpTimeCounter > 0)
@@ -607,7 +611,7 @@ public class PlayerController : MonoBehaviour
 
     public void DashStart(InputAction.CallbackContext obj)
     {
-        if (disableMovement || _activateSpawnPoint) return;
+        if (disableMovement || disableMovementTeleport || disableMovementDraw || _activateSpawnPoint) return;
         if (canDash && canDashGround && !_attacking)
         {
             Debug.Log("dash");
@@ -643,7 +647,7 @@ public class PlayerController : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext obj)
     {
-        if (disableMovement || _activateSpawnPoint) return;
+        if (disableMovement || disableMovementTeleport || disableMovementDraw || _activateSpawnPoint) return;
         if (canAttack) 
             PerformAttack();
     }

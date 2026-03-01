@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHurtBox : MonoBehaviour
 {
     public int health;
+    public GameObject[] healthIcons;
     public PlayerController controller;
     public Rigidbody2D rb;
     public Vector2 deathForce;
@@ -12,6 +13,7 @@ public class PlayerHurtBox : MonoBehaviour
     public float deathDrag;
     Vector3 contactPoint;
     public CapsuleCollider2D col;
+    public Vector2 lastGroundedPos;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,11 +23,24 @@ public class PlayerHurtBox : MonoBehaviour
             TakeDamage();
             contactPoint = collision.transform.position;
         }
+        if(collision.CompareTag("RespawnHitBox"))
+        {
+            TakeDamage(true);
+            contactPoint = collision.transform.position;
+        }
     }
-    public void TakeDamage()
+    public void TakeDamage(bool respawn = false)
     {
         health--;
-        DamageEffect();
+        healthIcons[health].SetActive(false);
+        if (respawn)
+        {
+            RespawnEffect();
+        }
+        else
+        {
+            DamageEffect();
+        }
 
         if (health <= 0)
         {
@@ -35,7 +50,23 @@ public class PlayerHurtBox : MonoBehaviour
 
 
     }
-
+    private void FixedUpdate()
+    {
+        if (controller._grounded && !controller.disableMovement)
+        {
+            lastGroundedPos = controller.transform.position;
+        }
+    }
+    public void RespawnEffect()
+    {
+        controller._dash = false;
+        controller._hurt = true;
+        controller.disableMovement = true;
+        rb.velocity = Vector2.zero;
+        rb.drag = deathDrag;
+        controller.rb.transform.position = lastGroundedPos;
+        StartCoroutine(HurtTime());
+    }
     public void DamageEffect()
     {
         controller._dash = false;

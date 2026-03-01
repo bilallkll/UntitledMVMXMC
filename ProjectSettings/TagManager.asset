@@ -8,6 +8,8 @@ TagManager:
   - PlayerHitbox
   - EnemyHitBox
   - WeakWall
+  - IntroTrigger
+  - RespawnHitBox
   layers:
   - Default
   - TransparentFX

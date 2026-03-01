@@ -5,7 +5,9 @@ using UnityEngine;
 public class MarkerParent : MonoBehaviour
 {
     public bool isTouchingWeakWall;
-    public GameObject weakWall;
+    public bool isTouchingIntro;
+    [HideInInspector]public GameObject weakWall;
+    [HideInInspector]public IntroManager introMan;
 
     private void OnEnable()
     {
@@ -18,6 +20,11 @@ public class MarkerParent : MonoBehaviour
         {
             isTouchingWeakWall = true;
             weakWall = collision.gameObject;
+        }
+        if (collision.CompareTag("IntroTrigger"))
+        {
+            introMan = collision.GetComponent<IntroManager>();
+            isTouchingIntro = true;
         }
     }
     

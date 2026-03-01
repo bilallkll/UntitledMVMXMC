@@ -16,7 +16,7 @@ public class SceneTransitionHolder : MonoBehaviour
     private void OnEnable()
     {
         PlayerController controller = GameObject.Find("Player").GetComponent<PlayerController>();
-        controller.disableMovement = true;
+        controller.disableMovementTeleport = true;
         controller._facingRight = facingRight;
         StartCoroutine(Delay());
         if (PlayerPrefs.GetString("LastScene") == lastSceneName)
@@ -27,6 +27,6 @@ public class SceneTransitionHolder : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(sceneTransitionTime);
-        GameObject.Find("Player").GetComponent<PlayerController>().disableMovement = false;
+        GameObject.Find("Player").GetComponent<PlayerController>().disableMovementTeleport = false;
     }
 }

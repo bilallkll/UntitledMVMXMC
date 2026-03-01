@@ -5,22 +5,27 @@ using UnityEngine;
 public class SymbolEvetns : MonoBehaviour
 {
     public MarkerParent markerParent;
+    public PlayerController controller;
     public void Crossed()
     {
-        Debug.Log("TryCross");
         if (markerParent.isTouchingWeakWall)
         {
-            Debug.Log("Crosseeed");
+            Debug.Log("destroyedWall");
             Destroy(markerParent.weakWall);
         }
+        if(markerParent.isTouchingIntro)
+        {
+            Debug.Log("intro");
+            markerParent.introMan.ActivateIntro();
+        }
     }
-    public void SuperCrossed()
+    public void CreateTpBall()
     {
-        Debug.Log("Super Crossed");
+        controller.spawnPointApparition = true;
     }
-    public void SuperCrossedTwo()
+    public void TpToBall()
     {
-        Debug.Log("Super CrossedYwo");
+        controller.GoBackToSpawn();
     }
 
 }
