@@ -13,17 +13,18 @@ public class IntroManager : MonoBehaviour
         if(PlayerPrefs.GetInt("intro") == 0)
         {
             controller.disableMovement = true;
-            PlayerPrefs.SetInt("intro", 1);
         }
         else
         {
             lightAnim.SetTrigger("lightsOn");
+            controller.disableMovement = false;
 
         }
     }
 
     public void ActivateIntro()
     {
+        PlayerPrefs.SetInt("intro", 1);
         lightAnim.SetTrigger("lightsOn");
         StartCoroutine(moveDelay());
     }

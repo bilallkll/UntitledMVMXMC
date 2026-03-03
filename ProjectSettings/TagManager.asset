@@ -10,6 +10,7 @@ TagManager:
   - WeakWall
   - IntroTrigger
   - RespawnHitBox
+  - Lever
   layers:
   - Default
   - TransparentFX

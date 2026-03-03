@@ -8,12 +8,14 @@ public class EnemyHurtBox : MonoBehaviour
     public bool isFly;
     public int health = 3;
     public Rigidbody2D rb;
+    public bool canMove = true;
     [Header("Death")]
     public Collider2D col;
     public Collider2D hurtCol;
     public Animator spriteAnim;
     public Instantiatedd instantiated;
     public GameObject deathEffect;
+    public float timeStop = 0.05f;
     [Header("Hurt Effect")]
     public GameObject hurtEffect;
     public float invicibilityTime = 0.4f;
@@ -24,31 +26,31 @@ public class EnemyHurtBox : MonoBehaviour
     PlayerController controller;
     public float pogoMultiplier = 1;
     public float knockBackTime = .2f;
-    public SimpleEnemy enemy;
     public ObjectShake objShake;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerHitbox"))
         {
-            TakeDamage(collision.ClosestPoint(transform.position));
+            TakeDamage(collision.ClosestPoint(transform.position), 1);
+        }
+        if (collision.CompareTag("RespawnHitBox"))
+        {
+            TakeDamage(collision.ClosestPoint(transform.position), 1000);
         }
     }
 
-    public void TakeDamage(Vector2 contactpos)
+    public void TakeDamage(Vector2 contactpos, int damage)
     {
-        health--;
+        health -= damage;
         if (hurtEffect) Instantiate(hurtEffect, contactpos, Quaternion.identity);
 
+        StartCoroutine(InvicibilityTime());
+        DamageEffect();
         if (health <= 0)
         {
             Death();
             return;
-        }
-        else
-        {
-            StartCoroutine(InvicibilityTime());
-            DamageEffect();
         }
 
 
@@ -74,11 +76,17 @@ public class EnemyHurtBox : MonoBehaviour
 
     public void Death()
     {
-        if(rb)rb.isKinematic = true;
-        if(spriteAnim)spriteAnim.SetTrigger("Death");
-        if(col)col.enabled = false;
+        StartCoroutine(stopTime(timeStop));
+    }
+    IEnumerator stopTime(float time)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(time);
+        Time.timeScale = 1;
+        if (rb) rb.isKinematic = true;
+        if (col) col.enabled = false;
         instantiated.enabled = true;
-        if(deathEffect)Instantiate(deathEffect, transform.position, Quaternion.identity);
+        if (deathEffect) Instantiate(deathEffect, transform.position, Quaternion.identity);
     }
 
     public void KnockBack()
@@ -107,15 +115,16 @@ public class EnemyHurtBox : MonoBehaviour
     }
     IEnumerator InvicibilityTime()
     {
+        if (hurtCol == null) yield break;
         hurtCol.enabled = false;
         yield return new WaitForSeconds(invicibilityTime);
         hurtCol.enabled = true;
     }
     IEnumerator KnockBackTime()
     {
-        if(enemy == null) yield break;
-        enemy.canMove = false;
+        canMove = false;
+
         yield return new WaitForSeconds(knockBackTime);
-        enemy.canMove = true;
+        canMove = true;
     }
 }

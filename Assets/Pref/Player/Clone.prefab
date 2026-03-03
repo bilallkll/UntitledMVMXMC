@@ -273,18 +273,21 @@ MonoBehaviour:
   isFly: 1
   health: 999999999
   rb: {fileID: 4151485497005600555}
+  canMove: 1
   col: {fileID: 5446672323806414749}
   hurtCol: {fileID: 5446672323806414749}
   spriteAnim: {fileID: 1674759521056310473}
   instantiated: {fileID: 409073980245622681}
-  invicibilityTime: 0.1
+  deathEffect: {fileID: 0}
+  hurtEffect: {fileID: 0}
+  invicibilityTime: 0.4
   hurtAnim: {fileID: 1674759521056310473}
   hurtSfx: {fileID: 4077394626556356919}
   knockBack: 5
-  playerKnockBack: 0
+  playerKnockBack: 0.5
   pogoMultiplier: 2
   knockBackTime: 0
-  enemy: {fileID: 0}
+  objShake: {fileID: 0}
 --- !u!114 &409073980245622681
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -159,7 +159,7 @@
                 {
                     "name": "WASD Controller",
                     "id": "dd89a4a9-690d-438c-9f46-f87bc1934b8a",
-                    "path": "2DVector(mode=1)",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

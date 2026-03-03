@@ -13,7 +13,10 @@ public class PlayerHurtBox : MonoBehaviour
     public float deathDrag;
     Vector3 contactPoint;
     public CapsuleCollider2D col;
+    public float lastGroundedPosDistance;
     public Vector2 lastGroundedPos;
+    bool cliffLeft;
+    bool cliffRight;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -52,10 +55,7 @@ public class PlayerHurtBox : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (controller._grounded && !controller.disableMovement)
-        {
-            lastGroundedPos = controller.transform.position;
-        }
+        LastGrounded();
     }
     public void RespawnEffect()
     {
@@ -85,5 +85,17 @@ public class PlayerHurtBox : MonoBehaviour
         controller.disableMovement = false; 
         col.direction = CapsuleDirection2D.Vertical;
         controller._hurt = false;
+    }
+
+    public void LastGrounded()
+    {
+        if (controller._grounded && !controller.disableMovement)
+        {
+            float dist = Vector2.Distance(transform.position ,lastGroundedPos);
+            if (dist >= lastGroundedPosDistance)
+            {
+                lastGroundedPos = controller.transform.position;
+            }
+        }
     }
 }

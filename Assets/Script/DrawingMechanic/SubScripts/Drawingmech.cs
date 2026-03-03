@@ -74,15 +74,21 @@ public class Drawingmech : MonoBehaviour
     {
         if (isDrawing)
         {
-            Time.timeScale = drawingTimeSpeed;
-            Time.fixedDeltaTime = 0.02F * Time.timeScale;
-            controller.disableMovementDraw = true;
+            if (!controller.disableMovement)
+            {
+                Time.timeScale = drawingTimeSpeed;
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+                controller.disableMovementDraw = true;
+            }
         }
         else
         {
-            Time.timeScale = 1;
-            Time.fixedDeltaTime = 0.02F;
-            controller.disableMovementDraw = false;
+            if (Time.timeScale == drawingTimeSpeed)
+            {
+                Time.timeScale = 1;
+                Time.fixedDeltaTime = 0.02F;
+                controller.disableMovementDraw = false;
+            }
         }
     }
 

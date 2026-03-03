@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class CamFollow : MonoBehaviour
 {
@@ -72,4 +73,33 @@ public class CamFollow : MonoBehaviour
 
         return tarogeto;
     }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        //Gizmos.DrawWireCube(transform.position, new Vector3((maxHorizontal.x + maxHorizontal.y), (maxVertical.x + maxVertical.y),1));
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        float camHeight = cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
+
+        float minX = maxHorizontal.x - camWidth;
+        float maxX = maxHorizontal.y + camWidth;
+        float minY = maxVertical.x - camHeight;
+        float maxY = maxVertical.y + camHeight;
+
+        Vector2 center = new Vector2(
+            (minX + maxX) / 2f,
+            (minY + maxY) / 2f
+        );
+
+        Vector2 size = new Vector2(
+            maxX - minX,
+            maxY - minY
+        );
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(center, size);
+    }
 }
+

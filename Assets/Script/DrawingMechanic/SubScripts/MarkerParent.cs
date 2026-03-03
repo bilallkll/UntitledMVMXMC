@@ -6,13 +6,21 @@ public class MarkerParent : MonoBehaviour
 {
     public bool isTouchingWeakWall;
     public bool isTouchingIntro;
+    public bool isTouchingLever;
     [HideInInspector]public GameObject weakWall;
     [HideInInspector]public IntroManager introMan;
+    [HideInInspector]public Lever leverController;
 
     private void OnEnable()
     {
         isTouchingWeakWall = false;
 
+    }
+    private void OnDisable()
+    {
+        isTouchingWeakWall = false;
+        isTouchingIntro = false;
+        isTouchingLever = false;
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -25,6 +33,11 @@ public class MarkerParent : MonoBehaviour
         {
             introMan = collision.GetComponent<IntroManager>();
             isTouchingIntro = true;
+        }
+        if (collision.CompareTag("Lever"))
+        {
+            leverController = collision.GetComponent<Lever>();
+            isTouchingLever = true;
         }
     }
     

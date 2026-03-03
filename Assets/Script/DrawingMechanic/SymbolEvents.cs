@@ -6,7 +6,7 @@ public class SymbolEvetns : MonoBehaviour
 {
     public MarkerParent markerParent;
     public PlayerController controller;
-    public void Crossed()
+    public void Interact()
     {
         if (markerParent.isTouchingWeakWall)
         {
@@ -17,6 +17,10 @@ public class SymbolEvetns : MonoBehaviour
         {
             Debug.Log("intro");
             markerParent.introMan.ActivateIntro();
+        }
+        if (markerParent.isTouchingLever)
+        {
+            markerParent.leverController.ActivateLever();
         }
     }
     public void CreateTpBall()

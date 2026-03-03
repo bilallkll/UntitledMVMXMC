@@ -13,46 +13,58 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool spawnPointApparition;
 
     [Header("Values")]
+    float HorizontalInput;
+    float VerticalInput;
     public float speed;
     public float acceleration;
+
     public float jumpForce;
-    public float dobleJumpForce;
-    public Vector2 wallJumpForce;
-    public float dashForce;
     public float jumpCoolDown;
-    public float dashCoolDown;
-    public float fallAcceleration;
-    public float fallSpeed;
     public float jumpTime;
+    public float jumpDrag;
+    float jumpTimeCounter;
+    public float coyoteTime = 0.2f;
+    float coyoteTimeCounter;
+
+    public float dobleJumpForce;
     public float doubleJumpTime;
+    float doubleJumpTimeCounter;
+
+    public Vector2 wallJumpForce;
     public float wallJumpTime;
     public float wallTreshHold;
-    public float dashJumpTime;
-    public float jumpDrag;
-    public float knockBackTime;
-    float jumpTimeCounter;
-    float doubleJumpTimeCounter;
     float wallJumpTimeCounter;
+    public float unstickWallTime;
+    float wallTimeee;
+
+
+    public float dashForce;
+    public float dashCoolDown;
+    public float dashJumpTime;
     float dashTimeCounter;
+
+
+    public float fallAcceleration;
+    public float fallSpeed;
+
+    public float knockBackTime;
+
+    public float disapearDelay;
+    public float reapearDelay;
+    public float activateSpawnPointTime;
+    public float spawnPointHeight;
+    float activateSpawnPointTimer;
+    [Header("Detector")]
     public Vector2 groundDetectRange;
     public float roofDetectRange;
     public float wallDetectRange;
     public float wallDrag;
-    float HorizontalInput;
-    float VerticalInput;
-    public GlobalVariable globalVar;
+    [Header("Fx/Sfx")]
     private float lastParticleTime;
     public float walkParticleCooldown;
     public float trailParticleCooldown;
     bool didWallGrabPlay;
     float orignalXScale;
-    public float unstickWallTime;
-    float wallTimeee;
-    public float activateSpawnPointTime;
-    public float spawnPointHeight;
-    float activateSpawnPointTimer;
-    public float disapearDelay;
-    public float reapearDelay;
     [Header("Attack")]
     public float attackTime;
     public float attackCooldown;
@@ -64,6 +76,7 @@ public class PlayerController : MonoBehaviour
     public float pogoForce;
     [Header("Components")]
     //public HitBox thisHitBox;
+    public GlobalVariable globalVar;
     public SpriteRenderer Srenderer;
     public Transform SpriteTrans;
     [HideInInspector]public Rigidbody2D rb;
@@ -171,6 +184,7 @@ public class PlayerController : MonoBehaviour
         Direction(false);
         AnimHandler();
         SpawnInputPoint();
+        CoyoteTime();
         if (disableMovement || disableMovementDraw)
         {
             walkSfx.Stop();
@@ -418,10 +432,24 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    public void CoyoteTime()
+    {
+        //Dont forget to always put the same thing as in jump start below
+        if (_grounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else if (!_grounded)
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+    }
+
+
     public void JumpStart(InputAction.CallbackContext obj)
     {
         if (disableMovement || disableMovementTeleport || disableMovementDraw) return;
-        if (_grounded && !_jumping && canJump && !_wallSticked && !_dash && !_attacking && !_activateSpawnPoint)
+        if (coyoteTimeCounter > 0 && !_jumping && canJump && !_wallSticked && !_dash && !_attacking && !_activateSpawnPoint)
         {
             Debug.Log("JumpStart");
             jumpTimeCounter = jumpTime;
@@ -731,7 +759,7 @@ public class PlayerController : MonoBehaviour
             else
                 return FallAnim;
         }
-        if (_moving) return Walk;
+        if (_moving && (!_walledLeft && !_walledRight)) return Walk;
         return Idle;
     }
     public void StateHandler()

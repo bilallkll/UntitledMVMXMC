@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    Animator anim;
+    Animator leverAnim;
+    public Animator doorAnim;
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        leverAnim = GetComponent<Animator>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,6 +19,8 @@ public class Lever : MonoBehaviour
     }
     public void ActivateLever()
     {
-        anim.SetTrigger("Activate");
+        leverAnim.SetTrigger("Activate");
+        doorAnim.SetTrigger("Activate");
     }
+
 }

@@ -10,16 +10,16 @@ public class SimpleEnemy : MonoBehaviour
 
     [Header("Component")]
     Rigidbody2D rb;
+    public EnemyHurtBox enemyHurtbox;
 
     [Header("Wall Detection")]
-    public float wallDetectHeight;
+    public float wallDetectHeight = 0.8f;
     [Header("Ground Detection")]
-    public Vector2 rightGroundRaycastPos;
-    public Vector2 leftGroundRaycastPos;
+    public Vector2 rightGroundRaycastPos = new Vector2(0.7f, 0);
+    public Vector2 leftGroundRaycastPos = new Vector2(0.7f, 0);
     public GlobalVariable globalVar;
     [Header("Bools")]
     public bool facingRight;
-    public bool canMove = true;
     bool groundLeft;
     bool groundRight;
     bool wallLeft;
@@ -63,7 +63,7 @@ public class SimpleEnemy : MonoBehaviour
     }
     public void Move()
     {
-        if (!canMove) return;
+        if (!enemyHurtbox.canMove) return;
         rb.velocity = new Vector2((facingRight ? 1 : -1) * speed, rb.velocity.y);
     }
     public void GroundCheck()

@@ -18,12 +18,30 @@ public class NewSpaceChangeCamClamp : MonoBehaviour
             cam.newSpace = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnDrawGizmosSelected()
     {
-        if (collision.CompareTag("Player"))
-        {
-            cam.newSpace = false;
-        }
+        Camera cam = Camera.main;
+        if (cam == null) return;
 
+        float camHeight = cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
+
+        float minX = newHorizontalClamp.x - camWidth;
+        float maxX = newHorizontalClamp.y + camWidth;
+        float minY = newVerticalClamp.x - camHeight;
+        float maxY = newVerticalClamp.y + camHeight;
+
+        Vector2 center = new Vector2(
+            (minX + maxX) / 2f,
+            (minY + maxY) / 2f
+        );
+
+        Vector2 size = new Vector2(
+            maxX - minX,
+            maxY - minY
+        );
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(center, size);
     }
 }
